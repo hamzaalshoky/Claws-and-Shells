@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "cas:raw_crab_leg",
+    "cas:raw_green_crab_leg",
+    "cas:raw_blue_crab_leg",
+    "cas:raw_golden_crab_leg"
+  ]
+}

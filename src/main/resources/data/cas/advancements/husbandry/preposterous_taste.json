@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "cas:raw_crab_leg"
+    },
+    "title": "Preposterous Taste!",
+    "description": "Eat a Raw crab leg and recieve the harmful effect!"
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "tag": "cas:raw_crab_legs"
+        }
+      }
+    }
+  }
+}

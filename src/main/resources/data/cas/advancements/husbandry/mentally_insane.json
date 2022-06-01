@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "cas:raw_golden_crab_leg"
+    },
+    "title": "Mentally Insane!",
+    "description": "Eat all the Harmful crab legs at the same time and survive!"
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "cas:saxitoxin": {},
+          "cas:batrachotoxin": {},
+          "cas:tetrodotoxin": {},
+          "cas:radiation": {}
+        }
+      }
+    }
+  }
+}
+
