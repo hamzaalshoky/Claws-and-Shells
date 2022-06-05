@@ -18,6 +18,7 @@ import net.peach.cas.effects.ModEffects;
 import net.peach.cas.entity.ModEntityTypes;
 import net.peach.cas.entity.client.CrabRenderer;
 import net.peach.cas.item.ModItems;
+import net.peach.cas.sound.ModSounds;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,6 +49,7 @@ public class CasMod
         ModItems.register(eventBus);
         ModEntityTypes.register(eventBus);
         ModEffects.register(eventBus);
+        ModSounds.register(eventBus);
     }
 
     private void setup(final FMLCommonSetupEvent event)

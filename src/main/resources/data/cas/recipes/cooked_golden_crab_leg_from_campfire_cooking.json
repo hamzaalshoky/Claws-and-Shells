@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "cas:raw_golden_crab_leg"
+  },
+  "result": "cas:cooked_golden_crab_leg",
+  "experience": 0.35,
+  "cookingtime": 600
+}

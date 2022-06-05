@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "cas:raw_green_crab_leg"
+  },
+  "result": "cas:cooked_green_crab_leg",
+  "experience": 0.35,
+  "cookingtime": 100
+}

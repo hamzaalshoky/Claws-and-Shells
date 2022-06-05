@@ -2,7 +2,7 @@
   "crab_rave": {
     "sounds": [
       {
-        "name": "cas:sounds/crab_rave",
+        "name": "cas:crab_rave",
         "stream": true
       }
     ]

@@ -2,7 +2,12 @@ package net.peach.cas.entity.custom;
 
 import net.minecraft.world.entity.ai.behavior.Swim;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.AABB;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.peach.cas.entity.variant.CrabVariant;
 import net.peach.cas.item.ModItems;
@@ -43,6 +48,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import javax.annotation.Nonnull;
+
 public class CrabEntity extends TamableAnimal implements IAnimatable{
 
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT =
@@ -51,10 +58,34 @@ public class CrabEntity extends TamableAnimal implements IAnimatable{
     private static final EntityDataAccessor<Boolean> SITTING =
             SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 
+    private boolean crabRave;
+    private BlockPos jukeboxPosition;
+
     private AnimationFactory factory = new AnimationFactory(this);
 
     public CrabEntity(EntityType<? extends TamableAnimal> p_21803_, Level p_21804_) {
         super(p_21803_, p_21804_);
+    }
+
+    public static void rave(LevelAccessor world, BlockPos pos, boolean raving) {
+        for(CrabEntity crab : world.getEntitiesOfClass(CrabEntity.class, (new AABB(pos)).inflate(4.0D)))
+            crab.party(pos, raving);
+    }
+
+    public void party(BlockPos pos, boolean isPartying) {
+        // A separate method, due to setPartying being side-only.
+        jukeboxPosition = pos;
+        crabRave = isPartying;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void setRecordPlayingNearby(@Nonnull BlockPos pos, boolean isPartying) {
+        party(pos, isPartying);
+    }
+
+    public boolean isRaving() {
+        return crabRave;
     }
 
 
@@ -86,9 +117,36 @@ public class CrabEntity extends TamableAnimal implements IAnimatable{
         }
     }
 
+
+    public boolean fromBucket() {
+        return false;
+    }
+
+    public void setFromBucket(boolean p_148834_) {
+
+    }
+
+
+    public void saveToBucketTag(ItemStack stack) {
+        Bucketable.saveDefaultDataToBucketTag(this, stack);
+    }
+
+
+    public void loadFromBucketTag(CompoundTag tag) {
+        Bucketable.loadDefaultDataFromBucketTag(this, tag);
+    }
+
+
     public ItemStack getBucketItemStack() {
-        Item item = ModItems.CRAB_BUCKET.get();
-        return new ItemStack(item);
+        return new ItemStack(ModItems.CRAB_BUCKET.get());
+    }
+
+
+    public SoundEvent getPickupSound() {
+        return SoundEvents.BUCKET_FILL_FISH;
+    }
+
+    protected void dropEquipment() {
     }
 
     // ANIMATIONS //
@@ -122,6 +180,11 @@ public class CrabEntity extends TamableAnimal implements IAnimatable{
 
         if(this.isInWaterOrBubble()){
             event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crab.swim", true));
+            return PlayState.CONTINUE;
+        }
+
+        if(this.isRaving()){
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.crab.dance", true));
             return PlayState.CONTINUE;
         }
 
